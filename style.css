@@ -1,0 +1,23 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  user-select: none;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #dddddd;
+  flex-direction: column;
+}
+
+.header {
+  font-size: calc(5vw + 5vh);
+  margin-top: 50px;
+  /*cursor: pointer; */
+}
