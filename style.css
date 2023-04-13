@@ -49,6 +49,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  margin: 20px;
   font-size: 20px;
   width: 50vw;
   height: 10vh;
