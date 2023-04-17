@@ -1,45 +1,35 @@
 import './style.css';
+import Person from './Person.js'
 
 const form = document.getElementById('input_form');
 const submitButton = document.getElementById('submit_button');
+const addRandomPersonButton = document.getElementById('randomPersonButton');
+const peopleContainer = document.querySelector('.people');
 
-let nameArr = []
-let ageArr = []
+new Person("Bob", 70);
 
-getRandomUser()
+addRandomPersonButton.addEventListener('click', () =>{
+  getRandomUser();
+})
+
+let nameArr = [];
+let ageArr = [];
+let pictureArr = [];
 
 async function getRandomUser() { 
   const data = await fetch ('https://randomuser.me/api/')
-  .then((response) => {
-    concole.log(response);
-    let fetchData = response.json().then(
-      data
-    );
-    console.log(fetchData);
-  });
+  const json = await data.json();
+  console.log(json.results[0]);
+  let name = json.results[0].name.first;
+  let age = json.results[0].dob.age;
+  let picture = json.results[0].picture.large;
 
-  
-}
 
-function addperson (name, age) {
-  //personDiv is the container for 'name and 'age' divs
-  const personDiv = document.createElement('div');
-  personDiv.classList = 'person';
-  personDiv.innerHTML = 'Hello';
-  peopleConatiner.appendChild(personDiv);
+  addPerson(name, age, picture);
+  }
 
-  console.log(peopleContainer);
-
-  //create and append nameDiv to personDiv
-  const nameDiv = document.createElement('div');
-  nameDiv.innerHTML = 'Name: ${name}';
-  personDiv.appendChild(nameDiv);
-
-  //create and append ageDiv to personDiv
-  const ageDiv = document.createElement('div');
-  ageDiv.innerHTML = 'age: ${age}';
-  personDiv.appendChild(ageDiv);
-
+function addPerson (name, age, picture = null) {
+  new Person(name, age, picture);
 }
 
 function clickHandler(e) {
@@ -58,4 +48,3 @@ function clickHandler(e) {
 
 submitButton.addEventListener('click', clickHandler);
 
-const peopleConatiner = document.querySelector('.people');
