@@ -6,7 +6,7 @@ const submitButton = document.getElementById('submit_button');
 const addRandomPersonButton = document.getElementById('randomPersonButton');
 const peopleContainer = document.querySelector('.people');
 
-new Person("Bob", 70);
+// new Person('Bob', 60);
 
 addRandomPersonButton.addEventListener('click', () =>{
   getRandomUser();
