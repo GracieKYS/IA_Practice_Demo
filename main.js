@@ -1,12 +1,32 @@
 import './style.css';
-import Person from './Person.js'
+import { db } from './db.js';
+import { collection, addDoc } from "firebase/firestore"; 
+
+import Person from './Person.js';
 
 const form = document.getElementById('input_form');
 const submitButton = document.getElementById('submit_button');
 const addRandomPersonButton = document.getElementById('randomPersonButton');
 const peopleContainer = document.querySelector('.people');
 
-// new Person('Bob', 60);
+addData ("Ian", 60);
+addData ("George", 20);
+
+
+
+async function addData(name, age) {
+  try {
+    const docRef = await addDoc(collection(db, "people"), {
+      name: name,
+      age: age,
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
+
 
 addRandomPersonButton.addEventListener('click', () =>{
   getRandomUser();

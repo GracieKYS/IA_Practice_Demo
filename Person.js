@@ -32,25 +32,46 @@ export default class Person {
     height: '15vh',
     ease:'bounce',
       });
+      let pictureIMG
 
+    if (this.picture) {
+      const pictureIMG = document.createElement('img');
+      pictureIMG.src = this.picture;
+      pictureIMG.className = 'picture';
+     
+      gsap.to(pictureIMG, { duration: 5, delay: 3, opacity: 1 });
+     
+      personDiv.appendChild(pictureIMG);
+    }
 
    this.container.appendChild(personDiv);
    personDiv.addEventListener('click', () => {
-   personDiv.remove();
+    const pictureIMG = document.createElement('img');
+    gsap.to(pictureDiv, {
+      duration: 2,
+      opacity: 0,
+      height: 0,
+      width: 0,
+    })
+
+    gsap
+    .to(personDiv, {
+      opacity: 0,
+      duration: 2,
+      height: 0,
+      width: 0,
+      
+    }).then(() => {
+      personDiv.remove();
+    });
+
    });
   
-   if (this.picture) {
-   const pictureIMG = document.createElement('img');
-   pictureIMG.src = this.picture;
-   pictureIMG.className = 'picture';
-
-   gsap.to(pictureIMG, { duration: 5, delay: 3, opacity: 1 });
-
-   personDiv.appendChild(pictureIMG);
-   }
-  
    //create and append nameDiv to personDiv 
-   const nameDiv = document.createElement('div'); 
+   const nameDiv = document.createElement('div');
+   setTimeout(() => {
+    nameDiv.innerHTML
+   })
    nameDiv.innerHTML = `Name: ${this.name}`;
    personDiv.appendChild(nameDiv);
   
