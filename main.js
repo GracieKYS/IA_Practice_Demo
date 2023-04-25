@@ -1,19 +1,26 @@
 import './style.css';
+import { collection, addDoc , getDocs} from "firebase/firestore"; 
 import { db } from './db.js';
-import { collection, addDoc } from "firebase/firestore"; 
-
 import Person from './Person.js';
+
 
 const form = document.getElementById('input_form');
 const submitButton = document.getElementById('submit_button');
 const addRandomPersonButton = document.getElementById('randomPersonButton');
 const peopleContainer = document.querySelector('.people');
 
-addData ("Ian", 60);
-addData ("George", 20);
+let nameArr = [];
+let ageArr = [];
+let pictureArr = [];
+let personArr = [];
+
+//addData ("Ian", 60);
+//addData ("George", 20);
 
 
-
+/** 
+ * DB
+ */
 async function addData(name, age) {
   try {
     const docRef = await addDoc(collection(db, "people"), {
@@ -26,16 +33,39 @@ async function addData(name, age) {
   }
 }
 
+async function getData() {
+  const querySnapshot = await getDocs(collection(db, "people"));
+  querySnapshot.forEach((doc) => {
+    nameArr.push(doc.data().name)
+    ageArr.push(doc.data().age)
 
+    personArr.push({
+      name: doc.data().name, 
+      age: doc.data().age,
+      favSport: 'Basketball',
+    })
+
+    // console.log(`${doc.id} => ${doc.data().age}`);
+    addPerson(doc.data().name, doc.data().age);
+});
+}
+
+getData().then(()=> {
+  personArr.forEach((person)=> {
+    console.log(person);
+  })
+})
+
+/**
+ * EventListener
+ */
 
 addRandomPersonButton.addEventListener('click', () =>{
   getRandomUser();
-})
+});
 
-let nameArr = [];
-let ageArr = [];
-let pictureArr = [];
 
+//add data from db
 async function getRandomUser() { 
   const data = await fetch ('https://randomuser.me/api/')
   const json = await data.json();
@@ -48,6 +78,7 @@ async function getRandomUser() {
   addPerson(name, age, picture);
   }
 
+
 function addPerson (name, age, picture = null) {
   new Person(name, age, picture);
 }
@@ -59,8 +90,7 @@ function clickHandler(e) {
   nameArr.push(formData.get('name'));
   ageArr.push(formData.get('age'));
 
-  addPerson(formData.get('name'));
-  addPerson(formData.get('age'));
+  addPerson(formData.get('name'), formData.get('age'));
 
 //  viewNameArr();
 //  viewAgeArr();
@@ -68,3 +98,9 @@ function clickHandler(e) {
 
 submitButton.addEventListener('click', clickHandler);
 
+
+
+/**
+ * Storage
+ */
+ import { storage, ref } from './db.js';
