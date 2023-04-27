@@ -1,6 +1,7 @@
 import './style.css';
-import { collection, addDoc , getDocs} from "firebase/firestore"; 
-import { db } from './db.js';
+import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
+import { collection, addDoc , getDocs } from "firebase/firestore"; 
+import { db, storage } from './db.js';
 import Person from './Person.js';
 
 
@@ -98,9 +99,48 @@ function clickHandler(e) {
 
 submitButton.addEventListener('click', clickHandler);
 
-
-
 /**
  * Storage
  */
- import { storage, ref } from './db.js';
+
+const myRef = ref(storage);
+console.log(myRef);
+
+function uploadPicture() {
+  try {
+    uploadBytes(storage, './public/IMG_999.jpeg').then((snapshot) => {
+      console.log('Uploaded a blob or file!');
+    });
+  } catch (error) {
+    console.log(error)
+  }
+
+}
+
+//upload picture
+
+const storage = getStorage();
+getDownloadURL(ref(storage, 'gs://ia-practice.appspot.com/IMG_999.jpeg'))
+  .then((url) => {
+    // `url` is the download URL for 'images/stars.jpg'
+
+    // This can be downloaded directly:
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = (event) => {
+      const blob = xhr.response;
+      console.log(blob);
+    };
+    xhr.open('GET', url);
+    xhr.send();
+
+    // Or inserted into an <img> element
+    // const img = document.getElementById('myimg');
+    // img.setAttribute('src', url);
+  })
+  .catch((error) => {
+    // Handle any errors
+  });
+
+  console.log(newStorage);
+
